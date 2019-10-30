@@ -3,7 +3,7 @@ import bpy
 
 class panel(Panel):   
     bl_space_type = 'VIEW_3D'
-    bl_region_type = 'UI'#2.79から修正
+    bl_region_type = 'UI'
     bl_category ='Tool'
     bl_options = {'DEFAULT_CLOSED'}
 
@@ -74,7 +74,6 @@ def UV_new(mesh_data):
 
 #カーソルを原点に
 def cursorOrigin():
-     #bpy.context.space_data.pivot_point = 'CURSOR'
      bpy.context.scene.tool_settings.transform_pivot_point = 'CURSOR'
      bpy.context.scene.cursor.location = (0,0,0)
 
