@@ -32,6 +32,18 @@ def delete(ob):
      select(ob,True)
      bpy.ops.object.delete()
 
+#---------------------------------------------------------------------------------------
+#ボーン関連 edit mode
+#---------------------------------------------------------------------------------------
+
+def get_selected_bones():
+     #ポーズモードなら
+     if current_mode() == 'POSE':
+          return bpy.context.selected_pose_bones
+     elif current_mode() == 'EDIT':
+          return bpy.context.selected_bones
+
+
 #選択をすべて解除して最後のオブジェクトをアクティブにする
 def multiSelection(objarray):
      if len(objarray) == 0:return
@@ -92,7 +104,12 @@ def m_mul(m0,m1):
      return m0 @ m1
 
 
+#---------------------------------------------------------------------------------------
 #モード
+#---------------------------------------------------------------------------------------
+def current_mode():
+     return bpy.context.object.mode
+
 def mode_e():
      bpy.ops.object.mode_set(mode = 'EDIT')
 
