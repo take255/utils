@@ -35,13 +35,24 @@ def delete(ob):
 #---------------------------------------------------------------------------------------
 #ボーン関連 edit mode
 #---------------------------------------------------------------------------------------
-
 def get_selected_bones():
      #ポーズモードなら
      if current_mode() == 'POSE':
           return bpy.context.selected_pose_bones
      elif current_mode() == 'EDIT':
           return bpy.context.selected_bones
+     elif current_mode() == 'OBJECT':
+          return []
+
+def get_active_bone():
+     #ポーズモードなら
+     if current_mode() == 'POSE':
+          return bpy.context.active_pose_bone
+     elif current_mode() == 'EDIT':
+          return bpy.context.active_bone
+     elif current_mode() == 'OBJECT':
+          return []
+
 
 
 #選択をすべて解除して最後のオブジェクトをアクティブにする
@@ -115,3 +126,30 @@ def mode_e():
 
 def mode_o():
      bpy.ops.object.mode_set(mode = 'OBJECT')
+
+def mode_p():
+     bpy.ops.object.mode_set(mode = 'POSE')
+
+
+#---------------------------------------------------------------------------------------
+#カーソル
+#---------------------------------------------------------------------------------------
+def init_cursor():
+    bpy.context.scene.cursor.location = (0.0, 0.0, 0.0)
+
+
+#---------------------------------------------------------------------------------------
+#リグのルートボーンを作成
+#---------------------------------------------------------------------------------------
+def rigroot():
+    bpy.ops.object.mode_set(mode='EDIT')
+    root = 'rig_root'
+    amt = bpy.context.object  
+    if root not in amt.data.edit_bones:
+        rootbone = amt.data.edit_bones.new(root)
+        rootbone.head = (0,0,0)
+        rootbone.tail = (0,0,1)
+    else:
+        rootbone = amt.data.edit_bones[root]
+    
+    return rootbone
