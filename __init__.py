@@ -27,6 +27,13 @@ def getActiveObj():
 def select(ob,state):
      ob.select_set(state=state)
 
+#シングルオブジェクトの選択とアクティブ化。それ以外のオブジェクトの選択解除
+def act(ob):
+     deselectAll()
+     select(ob,True)
+     activeObj(ob)
+
+
 def delete(ob):
      bpy.ops.object.select_all(action='DESELECT')
      select(ob,True)
