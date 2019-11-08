@@ -65,7 +65,7 @@ def get_active_bone():
 #選択をすべて解除して最後のオブジェクトをアクティブにする
 def multiSelection(objarray):
      if len(objarray) == 0:return
-     bpy.ops.object.select_all(action='DESELECT')
+     deselectAll()
      for ob in objarray:
           select(ob,True)
 
@@ -160,3 +160,29 @@ def rigroot():
         rootbone = amt.data.edit_bones[root]
     
     return rootbone
+
+#---------------------------------------------------------------------------------------
+#コレクション関連
+#---------------------------------------------------------------------------------------
+class collection:
+     @classmethod
+     def create( self , name ):          
+          collection = bpy.context.scene.collection
+          if name in [x.name for x in bpy.data.collections]:
+               col = bpy.data.collections[name]
+          else:
+               col = bpy.data.collections.new(name)
+               collection.children.link(col)
+          return col
+
+     @classmethod
+     def get_active( self ):
+          return bpy.context.view_layer.active_layer_collection 
+     
+     @classmethod
+     def move_obj( self , ob , to_col):
+          for col in ob.users_collection:
+               col.objects.unlink(ob)
+          to_col.objects.link(ob)
+          
+          
