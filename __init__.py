@@ -184,5 +184,11 @@ class collection:
           for col in ob.users_collection:
                col.objects.unlink(ob)
           to_col.objects.link(ob)
-          
-          
+     
+     @classmethod     
+     def root(self):
+          return bpy.context.scene.collection
+
+     @classmethod     
+     def children(self , col):
+          pass
