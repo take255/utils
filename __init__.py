@@ -192,3 +192,12 @@ class collection:
      @classmethod     
      def children(self , col):
           pass
+
+     @classmethod     
+     def get_parent(self , col):
+          result = []
+          for c in bpy.data.collections:
+               if col.name in c.children:
+                    result.append(c)
+          
+          return result
