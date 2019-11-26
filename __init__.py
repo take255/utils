@@ -184,7 +184,14 @@ class collection:
           for col in ob.users_collection:
                col.objects.unlink(ob)
           to_col.objects.link(ob)
-     
+
+     @classmethod
+     def move_col( self , collection ):
+          current = bpy.context.window.scene.name
+          for col in self.get_parent(collection):
+               col.children.unlink(collection)               
+          bpy.context.window.scene.collection.children.link(collection)
+
      @classmethod     
      def root(self):
           return bpy.context.scene.collection
@@ -198,6 +205,27 @@ class collection:
           result = []
           for c in bpy.data.collections:
                if col.name in c.children:
-                    result.append(c)
-          
+                    result.append(c)          
           return result
+
+     #colがカレントシーンにあるかどうか調べる
+     @classmethod
+     def exist(self , col):
+          current_scn = bpy.context.window.scene
+          exist = self.exist_loop( col , current_scn.collection ,False)
+          return exist
+
+     @classmethod
+     def exist_loop( self , col  , current ,  exist ):
+          children = current.children
+
+          if children != None:
+               for c in children:
+                    if col.name == c.name:
+                         exist = True
+
+                    exist = self.exist_loop(col ,c, exist)
+
+          return exist
+
+ 
