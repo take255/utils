@@ -228,4 +228,35 @@ class collection:
 
           return exist
 
- 
+
+class scene:
+     #オブジェクトがあるシーンに移動する
+     @classmethod
+     def move_obj_scene(self , ob):
+          for col in ob.users_collection:
+               for scn in bpy.data.scenes:
+                    #print( scn.name )
+                    print( scn.name , self.exist_loop( col , scn.collection ,False) )
+
+                    if self.exist_loop( col , scn.collection ,False):
+                         self.active(scn)
+
+     @classmethod
+     def exist_loop( self , col  , current ,  exist ):
+          if col == current:
+               exist = True
+
+          children = current.children
+
+          if children != None:
+               for c in children:
+                    if col.name == c.name:
+                         exist = True
+
+                    exist = self.exist_loop(col ,c, exist)
+
+          return exist
+
+     @classmethod
+     def active(self , scn):
+          bpy.context.window.scene = scn
