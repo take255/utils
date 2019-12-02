@@ -175,6 +175,10 @@ class collection:
                collection.children.link(col)
           return col
 
+     # @classmethod
+     # def get_obj( self ,col):
+     #      return bpy.context.view_layer.active_layer_collection 
+
      @classmethod
      def get_active( self ):
           return bpy.context.view_layer.active_layer_collection 
@@ -236,7 +240,7 @@ class scene:
           for col in ob.users_collection:
                for scn in bpy.data.scenes:
                     #print( scn.name )
-                    print( scn.name , self.exist_loop( col , scn.collection ,False) )
+                    #print( scn.name , self.exist_loop( col , scn.collection ,False) )
 
                     if self.exist_loop( col , scn.collection ,False):
                          self.active(scn)
