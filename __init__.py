@@ -207,8 +207,16 @@ class collection:
      @classmethod     
      def get_parent(self , col):
           result = []
+
+          #マスターコレクションを調べる
+          master = bpy.context.window.scene.collection
+          c = master.children
+          if col.name in [x.name for x in c]:
+               result.append(master)
+
+          #以外を調べる
           for c in bpy.data.collections:
-               if col.name in c.children:
+               if col.name in [x.name for x in c.children]:
                     result.append(c)          
           return result
 
