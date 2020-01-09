@@ -190,6 +190,13 @@ class collection:
           to_col.objects.link(ob)
 
      @classmethod
+     def move_obj_to_root( self , ob ):
+          for col in ob.users_collection:
+               col.objects.unlink(ob)
+          bpy.context.scene.collection.objects.link(ob)
+
+
+     @classmethod
      def move_col( self , collection ):
           current = bpy.context.window.scene.name
           for col in self.get_parent(collection):
@@ -272,3 +279,9 @@ class scene:
      @classmethod
      def active(self , scn):
           bpy.context.window.scene = scn
+
+     @classmethod
+     def activebyname(self,scenename):
+          scn = bpy.data.scenes[scenename]
+          bpy.context.window.scene = scn
+          return scn
