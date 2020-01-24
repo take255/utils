@@ -285,3 +285,46 @@ class scene:
           scn = bpy.data.scenes[scenename]
           bpy.context.window.scene = scn
           return scn
+
+
+
+#---------------------------------------------------------------------------------------
+#ボーン関連
+#---------------------------------------------------------------------------------------
+class bone:
+     #選択ボーンを選択順にソート
+     @classmethod
+     def sort(self):
+          result = []
+          for bone in get_selected_bones():
+               #print(b.name)
+               count = 0
+               b = bone
+               while b != None:
+                    b = b.parent
+                    count += 1
+
+               result.append([count,bone.name])
+ 
+          result.sort()
+          return [x[1] for x in result]
+
+     @classmethod
+     def get_selected_bones(self):
+          #ポーズモードなら
+          if current_mode() == 'POSE':
+               return bpy.context.selected_pose_bones
+          elif current_mode() == 'EDIT':
+               return bpy.context.selected_bones
+          elif current_mode() == 'OBJECT':
+               return []
+
+     @classmethod
+     def get_active_bone(self):
+          #ポーズモードなら
+          if current_mode() == 'POSE':
+               return bpy.context.active_pose_bone
+          elif current_mode() == 'EDIT':
+               return bpy.context.active_bone
+          elif current_mode() == 'OBJECT':
+               return []
