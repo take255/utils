@@ -287,7 +287,6 @@ class scene:
           return scn
 
 
-
 #---------------------------------------------------------------------------------------
 #ボーン関連
 #---------------------------------------------------------------------------------------
@@ -328,3 +327,8 @@ class bone:
                return bpy.context.active_bone
           elif current_mode() == 'OBJECT':
                return []
+
+     @classmethod
+     def selectByName(self,obname,state):
+          amt = bpy.context.object
+          amt.data.edit_bones[obname].select = state
