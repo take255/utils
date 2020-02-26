@@ -149,17 +149,20 @@ def init_cursor():
 #リグのルートボーンを作成
 #---------------------------------------------------------------------------------------
 def rigroot():
-    bpy.ops.object.mode_set(mode='EDIT')
-    root = 'rig_root'
-    amt = bpy.context.object  
-    if root not in amt.data.edit_bones:
-        rootbone = amt.data.edit_bones.new(root)
-        rootbone.head = (0,0,0)
-        rootbone.tail = (0,0,1)
-    else:
-        rootbone = amt.data.edit_bones[root]
-    
-    return rootbone
+     mode_e()
+     root = 'rig_root'
+     amt = bpy.context.object  
+     if root not in amt.data.edit_bones:
+          rootbone = amt.data.edit_bones.new(root)
+          rootbone.head = (0,0,0)
+          rootbone.tail = (0,0,1)
+
+          mode_p()
+          amt.pose.bones[root].use_deform = False
+     else:
+          rootbone = amt.data.edit_bones[root]
+
+     return rootbone
 
 #---------------------------------------------------------------------------------------
 #コレクション関連
@@ -286,11 +289,27 @@ class scene:
           bpy.context.window.scene = scn
           return scn
 
+     @classmethod
+     def IsExistence(self,scenename):
+          if scenename in [scn.name for scn in bpy.data.scenes]:
+               return True
+          else:
+               return False
+
+
+
 
 #---------------------------------------------------------------------------------------
 #ボーン関連
 #---------------------------------------------------------------------------------------
 class bone:
+     # Check the armature whether it is correct or not.
+     # Armature rotation must be applied.
+     @classmethod
+     def check_correct(self):
+          amt = bpy.context.object
+          amt.rotation
+
      #選択ボーンを選択順にソート
      @classmethod
      def sort(self):
@@ -331,4 +350,11 @@ class bone:
      @classmethod
      def selectByName(self,obname,state):
           amt = bpy.context.object
-          amt.data.edit_bones[obname].select = state
+
+          if current_mode() == 'EDIT':
+               amt.data.edit_bones[obname].select = state
+          elif current_mode() == 'POSE':
+               mode_e()
+               amt.data.edit_bones[obname].select = state
+               mode_p()
+          bpy.context.view_layer.update()
