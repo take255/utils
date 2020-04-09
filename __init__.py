@@ -157,8 +157,9 @@ def rigroot():
           rootbone.head = (0,0,0)
           rootbone.tail = (0,0,1)
 
-          mode_p()
-          amt.pose.bones[root].use_deform = False
+          #mode_p()
+          #amt.pose.bones[root].use_deform = False
+          amt.data.edit_bones[root].use_deform = False
      else:
           rootbone = amt.data.edit_bones[root]
 
