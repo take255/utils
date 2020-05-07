@@ -231,14 +231,14 @@ class collection:
                     result.append(c)          
           return result
 
-    @classmethod     
+     @classmethod     
      def isMaster(self , col):
           master = bpy.context.window.scene.collection
           if col == master:
                return True
           else:
                return False           
-               
+
      #colがカレントシーンにあるかどうか調べる
      @classmethod
      def exist(self , col):
