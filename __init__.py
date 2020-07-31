@@ -33,6 +33,12 @@ def act(ob):
      select(ob,True)
      activeObj(ob)
 
+def actByName(obname):
+     deselectAll()
+     ob = bpy.data.objects[obname]
+     ob.select_set(state=True)
+     select(ob,True)
+     activeObj(ob)
 
 def delete(ob):
      bpy.ops.object.select_all(action='DESELECT')
